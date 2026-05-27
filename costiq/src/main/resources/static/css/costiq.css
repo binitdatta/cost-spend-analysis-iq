@@ -1,0 +1,366 @@
+/* =====================================================
+   CostIQ — Light Blue Enterprise Theme
+   Bootstrap 5 custom layer
+===================================================== */
+
+:root {
+  --costiq-blue:        #1565C0;
+  --costiq-blue-light:  #42A5F5;
+  --costiq-blue-pale:   #E3F2FD;
+  --costiq-sidebar-bg:  #0D47A1;
+  --costiq-sidebar-w:   250px;
+  --costiq-navbar-bg:   #1565C0;
+  --costiq-card-bg:     #FFFFFF;
+  --costiq-body-bg:     #F0F4F8;
+  --costiq-border:      #DEE8F5;
+}
+
+/* ---- GLOBAL ---- */
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+
+/* ---- NAVBAR ---- */
+.costiq-navbar { background-color: var(--costiq-navbar-bg) !important; }
+.costiq-navbar .navbar-brand { letter-spacing: -0.5px; font-size: 1.25rem; }
+
+/* ---- PUBLIC PAGES ---- */
+.costiq-public-body {
+  background: linear-gradient(135deg, #E3F2FD 0%, #F0F4F8 60%, #E8F5E9 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.costiq-hero { background: transparent; }
+
+.costiq-hero-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid var(--costiq-border);
+}
+
+.costiq-stat-mini {
+  background: #F8FBFF;
+  border-radius: 12px;
+  padding: 1.25rem 0.75rem;
+  border: 1px solid var(--costiq-border);
+}
+
+.costiq-stat-mini-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto;
+  font-size: 1.1rem;
+}
+
+.costiq-badge-beta {
+  background-color: var(--costiq-blue-pale);
+  color: var(--costiq-blue);
+  border: 1px solid #90CAF9;
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  display: inline-block;
+}
+
+.btn-costiq-primary {
+  background-color: var(--costiq-blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+.btn-costiq-primary:hover { background-color: #0D47A1; color: white; }
+
+.text-costiq-blue { color: var(--costiq-blue) !important; }
+
+.costiq-feature-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--costiq-border);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.costiq-feature-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(21,101,192,0.12) !important; }
+
+.costiq-feature-icon {
+  width: 52px; height: 52px;
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.costiq-regions-banner { background: var(--costiq-blue); }
+.costiq-region-pill {
+  background: rgba(255,255,255,0.15);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 30px;
+  padding: 6px 18px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.costiq-footer {
+  background: #0D47A1;
+  color: rgba(255,255,255,0.85);
+  margin-top: auto;
+}
+
+/* ---- APP SHELL (DASHBOARD) ---- */
+.costiq-app-body {
+  background-color: var(--costiq-body-bg);
+  min-height: 100vh;
+}
+
+.costiq-app-container {
+  display: flex;
+  min-height: calc(100vh - 56px);
+}
+
+.costiq-sidebar-wrapper {
+  width: var(--costiq-sidebar-w);
+  flex-shrink: 0;
+  background-color: var(--costiq-sidebar-bg);
+  min-height: 100%;
+}
+
+.costiq-sidebar {
+  background-color: var(--costiq-sidebar-bg);
+  min-height: 100%;
+}
+
+.sidebar-logo-circle {
+  width: 48px; height: 48px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.sidebar-section-label {
+  color: rgba(255,255,255,0.45);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  padding: 12px 8px 4px;
+  text-transform: uppercase;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255,255,255,0.82);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+}
+.sidebar-link:hover { background: rgba(255,255,255,0.12); color: white; }
+.sidebar-link.sidebar-link-add { color: rgba(255,255,255,0.5); font-size: 0.82rem; padding: 5px 12px 5px 36px; }
+.sidebar-link.sidebar-link-add:hover { color: rgba(255,255,255,0.85); }
+
+.costiq-main-content {
+  flex: 1;
+  overflow-y: auto;
+  background-color: var(--costiq-body-bg);
+}
+
+/* ---- PAGE HEADER ---- */
+.costiq-page-header {
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--costiq-border);
+}
+
+/* ---- KPI CARDS ---- */
+.costiq-kpi-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+}
+
+.costiq-kpi-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #6B7280;
+  margin-bottom: 6px;
+}
+
+.costiq-kpi-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.costiq-kpi-sub {
+  font-size: 0.75rem;
+  color: #9CA3AF;
+  margin-top: 4px;
+}
+
+.costiq-kpi-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.costiq-grand-total-card {
+  background: linear-gradient(135deg, #1565C0, #1976D2);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+/* ---- CHART CARDS ---- */
+.costiq-chart-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--costiq-border);
+}
+
+.costiq-chart-header {
+  padding: 14px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--costiq-border);
+  background: #FAFCFF;
+  color: #374151;
+}
+
+.costiq-chart-body { padding: 16px; }
+
+/* ---- TABLE ---- */
+.costiq-table-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid var(--costiq-border);
+  overflow: hidden;
+}
+
+.costiq-table-head {
+  background: linear-gradient(90deg, #EFF6FF, #F0F9FF);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #374151;
+}
+
+.costiq-table-head th { padding: 10px 12px !important; border-bottom: 2px solid var(--costiq-border) !important; }
+.table tbody tr td { padding: 8px 12px; font-size: 0.875rem; }
+.table tbody tr:hover td { background-color: #F0F6FF; }
+
+.btn-xs {
+  padding: 2px 7px !important;
+  font-size: 0.75rem !important;
+  border-radius: 5px !important;
+  line-height: 1.5 !important;
+}
+
+/* ---- FORM CARD ---- */
+.costiq-form-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid var(--costiq-border);
+  max-width: 1000px;
+}
+
+.costiq-form-card .form-label { font-size: 0.83rem; color: #374151; }
+.costiq-form-card .form-control, .costiq-form-card .form-select {
+  border-color: #CBD5E1;
+  border-radius: 7px;
+  font-size: 0.875rem;
+}
+.costiq-form-card .form-control:focus, .costiq-form-card .form-select:focus {
+  border-color: var(--costiq-blue-light);
+  box-shadow: 0 0 0 3px rgba(66,165,245,0.18);
+}
+
+/* ---- DETAIL VIEW CARD ---- */
+.costiq-detail-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid var(--costiq-border);
+}
+
+.costiq-detail-section-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--costiq-blue);
+  border-bottom: 2px solid var(--costiq-blue-pale);
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+}
+
+.costiq-detail-card dl.row dt { font-size: 0.82rem; padding-top: 4px; }
+.costiq-detail-card dl.row dd { font-size: 0.875rem; padding-top: 4px; }
+
+/* ---- MISC ---- */
+.x-small { font-size: 0.72rem; }
+
+/* Alert subtle variants for BS5 */
+.alert-primary-subtle { background-color: var(--costiq-blue-pale); color: var(--costiq-blue); border-color: #BBDEFB; }
+.alert-success-subtle { background-color: #E8F5E9; color: #1B5E20; border-color: #C8E6C9; }
+
+/* Pagination */
+.pagination .page-item.active .page-link { background-color: var(--costiq-blue); border-color: var(--costiq-blue); }
+.pagination .page-link { color: var(--costiq-blue); }
+
+/* ---- LAYOUT ALIASES (dashboard.html uses these class names) ---- */
+/* Aligns dashboard.html's costiq-app/costiq-body/costiq-main with the CSS shell */
+.costiq-app {
+  background-color: var(--costiq-body-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.costiq-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* aside used as direct tag in dashboard.html */
+.costiq-body > aside {
+  width: var(--costiq-sidebar-w);
+  flex-shrink: 0;
+  background-color: var(--costiq-sidebar-bg);
+  overflow-y: auto;
+}
+
+.costiq-main {
+  flex: 1;
+  overflow-y: auto;
+  background-color: var(--costiq-body-bg);
+  min-width: 0;
+}
+
+/* Home page hero stats 2x2 grid */
+.hero-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* When th:replace substitutes <aside> with <div class="costiq-sidebar">,
+   the div becomes a direct child of .costiq-body and needs the sidebar width */
+.costiq-body > .costiq-sidebar {
+  width: var(--costiq-sidebar-w);
+  flex-shrink: 0;
+  background-color: var(--costiq-sidebar-bg);
+  overflow-y: auto;
+  min-height: 100%;
+}

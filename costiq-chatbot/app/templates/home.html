@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>CostIQ AI ChatBot — GlobalBite Foods Inc.</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
+  <style>
+    :root {
+      --navy:   #1E3A5F;
+      --blue:   #0d6efd;
+      --teal:   #0dcaf0;
+      --green:  #198754;
+      --amber:  #ffc107;
+      --slate:  #64748b;
+      --light:  #f8fafc;
+    }
+
+    body { background: #fff; font-family: 'Segoe UI', system-ui, sans-serif; }
+
+    /* ── Navbar ── */
+    .home-nav {
+      background: var(--navy);
+      padding: .75rem 0;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.25);
+    }
+    .home-nav .brand { color: #fff; font-weight: 800; font-size: 1.3rem; text-decoration: none; }
+    .home-nav .brand span { color: var(--amber); }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #0a1628 0%, #1e3a5f 55%, #0a1628 100%);
+      padding: 5rem 0 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 55% 60% at 15% 50%, rgba(13,202,240,.07) 0%, transparent 70%),
+        radial-gradient(ellipse 45% 55% at 85% 30%, rgba(13,110,253,.09) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: rgba(13,202,240,.1);
+      border: 1px solid rgba(13,202,240,.25);
+      color: #67e8f9;
+      padding: .35rem 1rem; border-radius: 100px;
+      font-size: .75rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title {
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 900; color: #f0f6ff; line-height: 1.12;
+      margin-bottom: 1.25rem;
+    }
+    .hero-title .accent { color: #38bdf8; }
+    .hero-lead {
+      color: #94a3b8; font-size: 1.05rem; line-height: 1.75;
+      max-width: 520px; margin-bottom: 2rem;
+    }
+    .btn-cta {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #fff; border: none;
+      padding: .8rem 2.25rem; border-radius: 8px;
+      font-weight: 700; font-size: 1rem;
+      box-shadow: 0 4px 18px rgba(2,132,199,.35);
+      transition: transform .15s, box-shadow .15s; text-decoration: none;
+    }
+    .btn-cta:hover {
+      color: #fff; transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(2,132,199,.45);
+    }
+    .btn-ghost {
+      background: transparent; color: #cbd5e1;
+      border: 1px solid rgba(255,255,255,.2);
+      padding: .8rem 1.75rem; border-radius: 8px;
+      font-weight: 600; font-size: 1rem;
+      transition: background .15s, border-color .15s; text-decoration: none;
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,.07);
+      border-color: rgba(255,255,255,.4); color: #fff;
+    }
+    .auth-status { font-size: .82rem; margin-top: .75rem; }
+    .auth-status.ok    { color: #4ade80; }
+    .auth-status.locked { color: #f87171; }
+
+    /* ── Stat grid ── */
+    .stat-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .stat-box {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px; padding: 1.5rem 1rem; text-align: center;
+      transition: background .2s, border-color .2s;
+    }
+    .stat-box:hover {
+      background: rgba(13,202,240,.06);
+      border-color: rgba(13,202,240,.25);
+    }
+    .stat-num { font-size: 2.2rem; font-weight: 900; color: #38bdf8; line-height: 1; }
+    .stat-lbl {
+      font-size: .7rem; color: #64748b;
+      text-transform: uppercase; letter-spacing: .07em; margin-top: .35rem;
+    }
+
+    /* ── Capabilities ── */
+    .caps-section { background: var(--light); padding: 4.5rem 0; }
+    .cap-card {
+      background: #fff; border: 1px solid #e2e8f0;
+      border-radius: 14px; padding: 1.75rem; height: 100%;
+      transition: box-shadow .2s, transform .2s, border-color .2s;
+    }
+    .cap-card:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,.08);
+      transform: translateY(-3px); border-color: #bae6fd;
+    }
+    .cap-icon {
+      width: 46px; height: 46px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.35rem; margin-bottom: 1rem;
+    }
+    .cap-card h5 { font-size: .95rem; font-weight: 700; color: #1e293b; margin-bottom: .4rem; }
+    .cap-card p  { font-size: .82rem; color: #64748b; margin-bottom: .6rem; line-height: 1.6; }
+    .cap-example {
+      font-size: .75rem; color: #0369a1;
+      background: #f0f9ff; padding: .25rem .6rem;
+      border-radius: 5px; display: inline-block;
+      font-family: 'Courier New', monospace;
+    }
+
+    /* ── Architecture ── */
+    .arch-section { background: #0f172a; padding: 4.5rem 0; }
+    .arch-card {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.07);
+      border-left: 3px solid;
+      border-radius: 10px; padding: 1.5rem; height: 100%;
+    }
+    .arch-card h6 { font-size: .9rem; font-weight: 700; margin-bottom: .75rem; }
+    .arch-card li { color: #94a3b8; font-size: .82rem; line-height: 2; }
+
+    /* ── Security banner ── */
+    .sec-banner {
+      background: linear-gradient(90deg, #0369a1 0%, #0284c7 100%);
+      padding: 1.75rem 0;
+    }
+
+    /* ── Footer ── */
+    .home-footer {
+      background: var(--navy); color: #64748b;
+      padding: 1.25rem 0; text-align: center; font-size: .78rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navbar ─────────────────────────────────────────────────────────── -->
+<nav class="home-nav">
+  <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
+    <a href="/" class="brand">
+      <i class="bi bi-graph-up-arrow me-2"></i>Cost<span>IQ</span>
+      <span class="badge bg-warning text-dark ms-2 fw-normal" style="font-size:.6rem">AI</span>
+    </a>
+    <div class="d-flex align-items-center gap-3">
+      <a href="http://localhost:8085/costiq" target="_blank"
+         class="btn btn-outline-light btn-sm">
+        <i class="bi bi-server me-1"></i>Spring Boot App
+      </a>
+      <a href="/auth/login" class="btn btn-info btn-sm fw-semibold">
+        <i class="bi bi-box-arrow-in-right me-1"></i>Sign In
+      </a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ── Hero ──────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+
+      <div class="col-lg-6">
+        <div class="hero-badge">
+          <i class="bi bi-shield-check"></i>
+          Enterprise POC · Keycloak 26 PKCE · Claude claude-opus-4-5
+        </div>
+        <h1 class="hero-title">
+          CostIQ<br/>
+          <span class="accent">AI ChatBot</span>
+        </h1>
+        <p class="hero-lead">
+          Natural language interface to GlobalBite Foods Inc.'s cost spend platform.
+          Ask anything about food costs, packaging, campaigns, suppliers and regions —
+          or generate a fully augmented Excel report in one command.
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="/chat" class="btn-cta">
+            <i class="bi bi-chat-dots me-2"></i>Open Chat
+          </a>
+          <a href="http://localhost:8085/costiq/dashboard" target="_blank" class="btn-ghost">
+            <i class="bi bi-speedometer2 me-2"></i>Dashboard
+          </a>
+        </div>
+        <div class="auth-status locked mt-3">
+          <i class="bi bi-lock-fill me-1"></i>
+          Keycloak login required to access the AI chat
+        </div>
+      </div>
+
+      <div class="col-lg-5 offset-lg-1">
+        <div class="stat-grid">
+          <div class="stat-box">
+            <i class="bi bi-currency-dollar fs-2 mb-2 d-block" style="color:#38bdf8"></i>
+            <div class="stat-num">$74M+</div>
+            <div class="stat-lbl">Total Spend Tracked</div>
+          </div>
+          <div class="stat-box">
+            <i class="bi bi-basket2-fill fs-2 mb-2 d-block" style="color:#4ade80"></i>
+            <div class="stat-num">38</div>
+            <div class="stat-lbl">Food Cost Entries</div>
+          </div>
+          <div class="stat-box">
+            <i class="bi bi-gift-fill fs-2 mb-2 d-block" style="color:#fb923c"></i>
+            <div class="stat-num">8</div>
+            <div class="stat-lbl">Active Campaigns</div>
+          </div>
+          <div class="stat-box">
+            <i class="bi bi-truck fs-2 mb-2 d-block" style="color:#818cf8"></i>
+            <div class="stat-num">15</div>
+            <div class="stat-lbl">Global Suppliers</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ── Capabilities ──────────────────────────────────────────────────── -->
+<section class="caps-section">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold" style="color:#1e293b;">What Can You Ask?</h2>
+      <p class="text-muted">Type natural language — the AI queries live data and responds with specifics</p>
+    </div>
+    <div class="row g-4">
+
+      <div class="col-md-4">
+        <div class="cap-card">
+          <div class="cap-icon" style="background:#dbeafe;">
+            <i class="bi bi-currency-dollar text-primary"></i>
+          </div>
+          <h5>Spend Overview</h5>
+          <p>Grand total across all categories with breakdown by food, packaging, toys and marketing.</p>
+          <span class="cap-example">What is the grand total spend?</span>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="cap-card">
+          <div class="cap-icon" style="background:#dcfce7;">
+            <i class="bi bi-globe-americas text-success"></i>
+          </div>
+          <h5>Regional Analysis</h5>
+          <p>Spend breakdown by region — North America, Europe, Asia Pacific, Africa, Australia.</p>
+          <span class="cap-example">Show food costs by region</span>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="cap-card">
+          <div class="cap-icon" style="background:#fef3c7;">
+            <i class="bi bi-gift text-warning"></i>
+          </div>
+          <h5>Campaign Intelligence</h5>
+          <p>Which campaign has the highest toy allocation? Budget utilisation per campaign.</p>
+          <span class="cap-example">Top campaign by toy cost</span>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="cap-card">
+          <div class="cap-icon" style="background:#ede9fe;">
+            <i class="bi bi-truck" style="color:#7c3aed;"></i>
+          </div>
+          <h5>Supplier Intelligence</h5>
+          <p>List active suppliers, their tiers, countries and total spend across all categories.</p>
+          <span class="cap-example">List all active suppliers</span>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="cap-card">
+          <div class="cap-icon" style="background:#fce7f3;">
+            <i class="bi bi-bar-chart text-danger"></i>
+          </div>
+          <h5>Comparative Analysis</h5>
+          <p>Compare spend across fiscal periods, categories, or regions side by side.</p>
+          <span class="cap-example">Compare marketing vs toy spend</span>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="cap-card">
+          <div class="cap-icon" style="background:#d1fae5;">
+            <i class="bi bi-file-earmark-excel" style="color:#166534;"></i>
+          </div>
+          <h5>Excel Report</h5>
+          <p>Generate a fully augmented 8-sheet workbook — supplier scorecard, regional matrix, campaign ROI and more.</p>
+          <span class="cap-example">Generate an Excel report</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ── Architecture ──────────────────────────────────────────────────── -->
+<section class="arch-section">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-5" style="color:#e2e8f0;">Architecture</h2>
+    <div class="row g-4">
+
+      <div class="col-lg-6">
+        <div class="arch-card" style="border-left-color:#0ea5e9;">
+          <h6 class="text-info">
+            <i class="bi bi-robot me-2"></i>Flask ChatBot (Port 5001)
+          </h6>
+          <ul class="ps-3 mb-0">
+            <li>Keycloak 26 PKCE authentication</li>
+            <li>Claude claude-opus-4-5 AI responses via Anthropic API</li>
+            <li>SSE token-by-token streaming</li>
+            <li>11 live CostIQ REST API calls per chat turn</li>
+            <li>Apache POI Excel export via Spring Boot</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="arch-card" style="border-left-color:#2563eb;">
+          <h6 class="text-primary">
+            <i class="bi bi-server me-2"></i>Spring Boot (Port 8085)
+          </h6>
+          <ul class="ps-3 mb-0">
+            <li>Dual security: PKCE UI + JWT Bearer API</li>
+            <li>11 REST JSON endpoints + Excel export</li>
+            <li>Food, Packaging, Toy, Marketing domain</li>
+            <li>Spring Data JPA / MySQL 8 / Hibernate 6</li>
+            <li>Apache POI 5.3 — augmented 8-sheet workbook</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="arch-card" style="border-left-color:#16a34a;">
+          <h6 class="text-success">
+            <i class="bi bi-key me-2"></i>Keycloak 26 (Port 8080)
+          </h6>
+          <ul class="ps-3 mb-0">
+            <li>Realm: costiq-realm</li>
+            <li>PKCE S256 enforced — no client secret</li>
+            <li>Shared by Spring Boot UI and Flask ChatBot</li>
+            <li>JWT Bearer token validation for REST APIs</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="arch-card" style="border-left-color:#d97706;">
+          <h6 style="color:#fb923c;">
+            <i class="bi bi-database me-2"></i>MySQL 8 (Port 3306)
+          </h6>
+          <ul class="ps-3 mb-0">
+            <li>Schema: costiq_db</li>
+            <li>17 tables — regions, countries, suppliers, campaigns…</li>
+            <li>DBA-owned DDL — Hibernate validate only</li>
+            <li>Rich seed data — 38 food + 23 packaging + 26 toy entries</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ── Security banner ───────────────────────────────────────────────── -->
+<section class="sec-banner">
+  <div class="container">
+    <div class="row align-items-center g-3">
+      <div class="col-auto">
+        <i class="bi bi-shield-lock-fill fs-2 text-white"></i>
+      </div>
+      <div class="col text-white">
+        <strong>Enterprise-Grade Security</strong> —
+        Protected by Keycloak 26 OAuth2 PKCE.
+        All chat sessions are authenticated. No cost data is accessible without a valid token.
+      </div>
+      <div class="col-auto">
+        <a href="/auth/login" class="btn btn-light text-primary fw-semibold">
+          Sign In <i class="bi bi-arrow-right ms-1"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── Footer ────────────────────────────────────────────────────────── -->
+<footer class="home-footer">
+  CostIQ AI ChatBot &middot; Python 3.12 Flask &middot; Keycloak 26 PKCE
+  &middot; Claude claude-opus-4-5 &middot; Spring Boot 3.5 &middot; Apache POI 5.3
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

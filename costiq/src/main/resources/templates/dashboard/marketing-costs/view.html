@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head(${pageTitle})}"></head>
+<body class="costiq-app d-flex flex-column min-vh-100">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="costiq-body d-flex flex-grow-1">
+  <aside th:replace="~{fragments/layout :: sidebar}"></aside>
+  <main class="costiq-main flex-grow-1 p-4 overflow-auto">
+    <div class="d-flex align-items-center mb-4">
+      <a th:href="@{/dashboard/marketing-costs}" class="btn btn-outline-secondary btn-sm me-3">
+        <i class="bi bi-arrow-left me-1"></i>Back</a>
+      <h4 class="fw-bold mb-0" th:text="'Marketing Cost #' + ${entry.id}"></h4>
+      <div class="ms-auto">
+        <a th:href="@{/dashboard/marketing-costs/{id}/edit(id=${entry.id})}"
+           class="btn btn-primary btn-sm"><i class="bi bi-pencil me-1"></i>Edit</a>
+      </div>
+    </div>
+    <div class="row g-4" style="max-width:900px;">
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-header bg-danger text-white">
+            <h6 class="mb-0"><i class="bi bi-megaphone me-2"></i>Campaign &amp; Cost Details</h6>
+          </div>
+          <div class="card-body">
+            <dl class="row mb-0">
+              <dt class="col-sm-5 text-muted">Campaign</dt>
+              <dd class="col-sm-7 fw-semibold" th:text="${entry.campaign.name}"></dd>
+              <dt class="col-sm-5 text-muted">Cost Type</dt>
+              <dd class="col-sm-7">
+                <span class="badge bg-danger-subtle text-danger"
+                      th:text="${entry.costType}"></span>
+              </dd>
+              <dt class="col-sm-5 text-muted">Amount</dt>
+              <dd class="col-sm-7 fw-bold text-danger fs-5"
+                  th:text="'$' + ${#numbers.formatDecimal(entry.amountUsd,1,'COMMA',2,'POINT')}"></dd>
+              <dt class="col-sm-5 text-muted">Vendor</dt>
+              <dd class="col-sm-7" th:text="${entry.vendorName ?: '—'}"></dd>
+              <dt class="col-sm-5 text-muted">Invoice</dt>
+              <dd class="col-sm-7" th:text="${entry.invoiceRef ?: '—'}"></dd>
+              <dt class="col-sm-5 text-muted">Entry Date</dt>
+              <dd class="col-sm-7"
+                  th:text="${#temporals.format(entry.entryDate,'dd-MMM-yyyy')}"></dd>
+              <dt class="col-sm-5 text-muted">Fiscal Period</dt>
+              <dd class="col-sm-7">
+                <span class="badge bg-primary-subtle text-primary"
+                      th:text="${entry.fiscalPeriod.periodName}"></span>
+              </dd>
+              <dt class="col-sm-5 text-muted">Cost Center</dt>
+              <dd class="col-sm-7" th:text="${entry.costCenter.code + ' — ' + entry.costCenter.name}"></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6" th:if="${entry.description}">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-header bg-light">
+            <h6 class="mb-0">Description</h6>
+          </div>
+          <div class="card-body">
+            <p class="mb-0" th:text="${entry.description}"></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="card border-0 bg-light">
+          <div class="card-body py-2">
+            <small class="text-muted">
+              Created by <strong th:text="${entry.createdBy}"></strong>
+              on <span th:text="${#temporals.format(entry.createdAt,'dd-MMM-yyyy HH:mm')}"></span>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

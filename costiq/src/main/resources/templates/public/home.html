@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Welcome')}"></head>
+<body class="costiq-public d-flex flex-column min-vh-100">
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<!-- HERO -->
+<section class="hero-section py-5">
+  <div class="container py-4">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2 rounded-pill fs-6">
+          <i class="bi bi-stars me-1"></i>Enterprise Cost Intelligence
+        </span>
+        <h1 class="display-4 fw-bold text-dark mb-4">
+          Full Visibility Into Your<br/>
+          <span class="text-primary">Global Spend</span>
+        </h1>
+        <p class="lead text-muted mb-4">
+          CostIQ tracks every dollar spent on food ingredients, packaging, promotional
+          toy campaigns and marketing across North America, Europe, Asia Pacific,
+          Australia and Africa — in one unified platform.
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+          <a th:href="@{/oauth2/authorization/keycloak}"
+             class="btn btn-primary btn-lg px-5 shadow-sm">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In to Dashboard
+          </a>
+          <a th:href="@{/public/about}" class="btn btn-outline-secondary btn-lg px-4">
+            Learn More <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-stats-grid">
+          <div class="stat-card text-center p-4 rounded-4 shadow-sm bg-white border border-primary-subtle">
+            <div class="stat-icon text-primary mb-2"><i class="bi bi-globe-americas fs-1"></i></div>
+            <div class="fw-bold fs-2 text-dark">5</div>
+            <div class="text-muted small">Global Regions</div>
+          </div>
+          <div class="stat-card text-center p-4 rounded-4 shadow-sm bg-white border border-success-subtle">
+            <div class="stat-icon text-success mb-2"><i class="bi bi-basket2 fs-1"></i></div>
+            <div class="fw-bold fs-2 text-dark">20+</div>
+            <div class="text-muted small">Food SKUs Tracked</div>
+          </div>
+          <div class="stat-card text-center p-4 rounded-4 shadow-sm bg-white border border-warning-subtle">
+            <div class="stat-icon text-warning mb-2"><i class="bi bi-gift fs-1"></i></div>
+            <div class="fw-bold fs-2 text-dark">8</div>
+            <div class="text-muted small">Active Campaigns</div>
+          </div>
+          <div class="stat-card text-center p-4 rounded-4 shadow-sm bg-white border border-info-subtle">
+            <div class="stat-icon text-info mb-2"><i class="bi bi-truck fs-1"></i></div>
+            <div class="fw-bold fs-2 text-dark">15</div>
+            <div class="text-muted small">Global Suppliers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="py-5 bg-light">
+  <div class="container py-3">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold">What CostIQ Covers</h2>
+      <p class="text-muted">Everything you need to manage enterprise spend across the globe</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="feature-card p-4 rounded-4 bg-white shadow-sm h-100 border-top border-4 border-primary">
+          <i class="bi bi-basket2-fill text-primary fs-2 mb-3 d-block"></i>
+          <h5 class="fw-semibold">Food Ingredients</h5>
+          <p class="text-muted small mb-0">Track per-unit procurement costs for all food items by supplier, country, fiscal period, and cost center.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="feature-card p-4 rounded-4 bg-white shadow-sm h-100 border-top border-4 border-success">
+          <i class="bi bi-box-seam-fill text-success fs-2 mb-3 d-block"></i>
+          <h5 class="fw-semibold">Packaging</h5>
+          <p class="text-muted small mb-0">Monitor packaging unit economics — Happy Meal boxes, cups, bags, foil wrappers — across all materials and regions.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="feature-card p-4 rounded-4 bg-white shadow-sm h-100 border-top border-4 border-warning">
+          <i class="bi bi-gift-fill text-warning fs-2 mb-3 d-block"></i>
+          <h5 class="fw-semibold">Toy Campaigns</h5>
+          <p class="text-muted small mb-0">Manage toy giveaway spend per campaign, region, and distribution channel for kids' meal promotions worldwide.</p>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="feature-card p-4 rounded-4 bg-white shadow-sm h-100 border-top border-4 border-info">
+          <i class="bi bi-megaphone-fill text-info fs-2 mb-3 d-block"></i>
+          <h5 class="fw-semibold">Marketing Spend</h5>
+          <p class="text-muted small mb-0">Capture TV, digital, social, print, events, and agency costs per campaign for complete ROI visibility.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY BANNER -->
+<section class="py-4 bg-primary text-white">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-auto">
+        <i class="bi bi-shield-lock-fill fs-2"></i>
+      </div>
+      <div class="col">
+        <strong>Enterprise-Grade Security</strong> &mdash;
+        Protected by Keycloak 26 with OAuth2 PKCE. All data access is role-based
+        and fully audited.
+      </div>
+      <div class="col-auto">
+        <a th:href="@{/oauth2/authorization/keycloak}" class="btn btn-light text-primary fw-semibold">
+          Sign In <i class="bi bi-arrow-right ms-1"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="flex-grow-1"></div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

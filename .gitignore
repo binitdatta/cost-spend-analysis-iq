@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Environment — NEVER commit these
+.env
+*.env
+.env.local
+.env.production
+
+# Logs
+logs/
+*.log
+
+# Token cache from PowerBI enricher
+.token_cache.bin
+
+# macOS
+.DS_Store
+
+# IntelliJ / PyCharm
+.idea/
+*.iml
+
+# Build output
+target/
+*.jar
+!*-sources.jar

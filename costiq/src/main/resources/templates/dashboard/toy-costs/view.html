@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Toy Allocation Detail')}"></head>
+<body class="costiq-app-body">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="costiq-app-container">
+  <aside class="costiq-sidebar-wrapper"><div th:replace="~{fragments/layout :: sidebar}"></div></aside>
+  <main class="costiq-main-content p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h4 class="fw-bold mb-0"><i class="bi bi-balloon-heart me-2 text-warning"></i>Toy Allocation #<span th:text="${entry.id}"></span></h4>
+      <div class="d-flex gap-2">
+        <a th:href="@{/dashboard/toy-allocations/{id}/edit(id=${entry.id})}" class="btn btn-warning btn-sm text-dark"><i class="bi bi-pencil me-1"></i>Edit</a>
+        <a th:href="@{/dashboard/toy-allocations}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>Back</a>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="costiq-detail-card shadow-sm">
+          <div class="costiq-detail-section-title"><i class="bi bi-balloon-heart me-2"></i>Campaign &amp; Toy</div>
+          <dl class="row mb-0">
+            <dt class="col-5 text-muted">Campaign</dt><dd class="col-7" th:text="${entry.campaign.name}"></dd>
+            <dt class="col-5 text-muted">Status</dt><dd class="col-7"><span class="badge bg-warning text-dark" th:text="${entry.campaign.status}"></span></dd>
+            <dt class="col-5 text-muted">Toy Item</dt><dd class="col-7" th:text="${entry.toyItem.name}"></dd>
+            <dt class="col-5 text-muted">Category</dt><dd class="col-7" th:text="${entry.toyItem.toyCategory.name}"></dd>
+            <dt class="col-5 text-muted">Age Range</dt><dd class="col-7" th:text="${entry.toyItem.toyCategory.ageRange}"></dd>
+            <dt class="col-5 text-muted">Safety Certified</dt>
+            <dd class="col-7"><span th:if="${entry.toyItem.safetyCertified}" class="badge bg-success">Yes</span><span th:unless="${entry.toyItem.safetyCertified}" class="badge bg-danger">No</span></dd>
+          </dl>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="costiq-detail-card shadow-sm">
+          <div class="costiq-detail-section-title"><i class="bi bi-currency-dollar me-2"></i>Cost &amp; Distribution</div>
+          <dl class="row mb-0">
+            <dt class="col-5 text-muted">Quantity</dt><dd class="col-7 fw-semibold" th:text="${#numbers.formatDecimal(entry.quantity, 1, 'COMMA', 0, 'POINT')}"></dd>
+            <dt class="col-5 text-muted">Unit Cost</dt><dd class="col-7" th:text="'$' + ${#numbers.formatDecimal(entry.unitCostUsd, 1, 'COMMA', 4, 'POINT')}"></dd>
+            <dt class="col-5 text-muted">Total Cost</dt><dd class="col-7 fw-bold text-warning fs-5" th:text="'$' + ${#numbers.formatDecimal(entry.computedTotal(), 1, 'COMMA', 2, 'POINT')}"></dd>
+            <dt class="col-5 text-muted">Channel</dt><dd class="col-7"><span class="badge bg-info" th:text="${entry.distributionChannel}"></span></dd>
+            <dt class="col-5 text-muted">Country / Region</dt><dd class="col-7" th:text="${entry.country.name + ' / ' + entry.country.region.name}"></dd>
+            <dt class="col-5 text-muted">Supplier</dt><dd class="col-7" th:text="${entry.supplier.name}"></dd>
+            <dt class="col-5 text-muted">Fiscal Period</dt><dd class="col-7" th:text="${entry.fiscalPeriod.periodName}"></dd>
+            <dt class="col-5 text-muted">Entry Date</dt><dd class="col-7" th:text="${#temporals.format(entry.entryDate, 'dd MMMM yyyy')}"></dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

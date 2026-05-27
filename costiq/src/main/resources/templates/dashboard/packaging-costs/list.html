@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('Packaging Cost Entries')}"></head>
+<body class="costiq-app-body">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="costiq-app-container">
+  <aside class="costiq-sidebar-wrapper"><div th:replace="~{fragments/layout :: sidebar}"></div></aside>
+  <main class="costiq-main-content p-4">
+    <div th:replace="~{fragments/layout :: flashMessages}"></div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h4 class="fw-bold mb-0"><i class="bi bi-box-seam me-2 text-success"></i>Packaging Cost Entries</h4>
+        <p class="text-muted small mb-0">Track packaging material procurement costs globally</p>
+      </div>
+      <a th:href="@{/dashboard/packaging-costs/new}" class="btn btn-success">
+        <i class="bi bi-plus-lg me-1"></i>New Entry
+      </a>
+    </div>
+    <div class="alert alert-success-subtle border border-success-subtle mb-3 py-2 px-3 d-flex align-items-center gap-3">
+      <i class="bi bi-info-circle-fill text-success"></i>
+      <span class="small">Page <strong th:text="${entries.number + 1}">1</strong> of
+        <strong th:text="${entries.totalPages}">1</strong> —
+        <strong th:text="${entries.totalElements}">0</strong> total entries</span>
+    </div>
+    <div class="table-responsive costiq-table-card shadow-sm">
+      <table class="table table-hover table-sm align-middle mb-0">
+        <thead class="costiq-table-head">
+        <tr>
+          <th>#</th><th>Date</th><th>Packaging Item</th><th>Type / Material</th>
+          <th>Supplier</th><th>Country</th><th>Period</th>
+          <th class="text-end">Qty</th><th class="text-end">Unit Cost</th>
+          <th class="text-end">Total Cost</th><th>Invoice</th><th class="text-center">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="e : ${entries.content}">
+          <td class="text-muted small" th:text="${e.id}"></td>
+          <td class="small" th:text="${#temporals.format(e.entryDate, 'dd-MMM-yyyy')}"></td>
+          <td>
+            <div class="fw-semibold small" th:text="${e.packagingItem.name}"></div>
+            <div class="text-muted x-small" th:text="${e.packagingItem.sku}"></div>
+          </td>
+          <td>
+            <span class="badge bg-success-subtle text-success small" th:text="${e.packagingItem.packagingType.name}"></span>
+            <div class="x-small text-muted" th:text="${e.packagingItem.packagingType.material}"></div>
+          </td>
+          <td class="small" th:text="${e.supplier.name}"></td>
+          <td>
+            <div class="small" th:text="${e.country.name}"></div>
+            <div class="x-small text-muted" th:text="${e.country.region.name}"></div>
+          </td>
+          <td><span class="badge bg-secondary-subtle text-secondary" th:text="${e.fiscalPeriod.periodName}"></span></td>
+          <td class="text-end small" th:text="${#numbers.formatDecimal(e.quantity, 1, 'COMMA', 0, 'POINT')}"></td>
+          <td class="text-end small" th:text="'$' + ${#numbers.formatDecimal(e.unitCostUsd, 1, 'COMMA', 4, 'POINT')}"></td>
+          <td class="text-end fw-semibold text-success small"
+              th:text="'$' + ${#numbers.formatDecimal(e.computedTotal(), 1, 'COMMA', 2, 'POINT')}"></td>
+          <td class="small text-muted" th:text="${e.invoiceRef}"></td>
+          <td class="text-center">
+            <div class="d-flex gap-1 justify-content-center">
+              <a th:href="@{/dashboard/packaging-costs/{id}/view(id=${e.id})}" class="btn btn-xs btn-outline-secondary"><i class="bi bi-eye"></i></a>
+              <a th:href="@{/dashboard/packaging-costs/{id}/edit(id=${e.id})}" class="btn btn-xs btn-outline-success"><i class="bi bi-pencil"></i></a>
+              <form th:action="@{/dashboard/packaging-costs/{id}/delete(id=${e.id})}" method="post" class="d-inline"
+                    onsubmit="return confirm('Delete this entry?')">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" class="btn btn-xs btn-outline-danger"><i class="bi bi-trash"></i></button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        <tr th:if="${entries.content.isEmpty()}">
+          <td colspan="12" class="text-center text-muted py-4">No packaging cost entries found.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div th:if="${entries.totalPages > 1}" class="d-flex justify-content-center mt-3">
+      <nav><ul class="pagination pagination-sm">
+        <li class="page-item" th:classappend="${entries.first} ? 'disabled'">
+          <a class="page-link" th:href="@{/dashboard/packaging-costs(page=${entries.number - 1})}">«</a>
+        </li>
+        <li class="page-item" th:each="i : ${#numbers.sequence(0, entries.totalPages - 1)}"
+            th:classappend="${i == entries.number} ? 'active'">
+          <a class="page-link" th:href="@{/dashboard/packaging-costs(page=${i})}" th:text="${i + 1}">1</a>
+        </li>
+        <li class="page-item" th:classappend="${entries.last} ? 'disabled'">
+          <a class="page-link" th:href="@{/dashboard/packaging-costs(page=${entries.number + 1})}">»</a>
+        </li>
+      </ul></nav>
+    </div>
+  </main>
+</div>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>

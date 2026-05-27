@@ -1,0 +1,134 @@
+{
+  "realm": "costiq-realm",
+  "displayName": "CostIQ — GlobalBite Foods",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "accessTokenLifespan": 300,
+  "ssoSessionIdleTimeout": 1800,
+  "ssoSessionMaxLifespan": 36000,
+  "clients": [
+    {
+      "clientId": "costiq-app",
+      "name": "CostIQ Cost Spend Analysis App",
+      "description": "Spring Boot app — OAuth2 PKCE public client",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "",
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "authorizationServicesEnabled": false,
+      "redirectUris": [
+        "http://localhost:8085/costiq/login/oauth2/code/keycloak",
+        "http://localhost:8085/costiq/*"
+      ],
+      "webOrigins": [
+        "http://localhost:8085"
+      ],
+      "protocol": "openid-connect",
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:8085/costiq/"
+      },
+      "defaultClientScopes": [
+        "web-origins", "acr", "roles", "profile", "basic", "email"
+      ],
+      "optionalClientScopes": [
+        "address", "phone", "offline_access", "microprofile-jwt"
+      ],
+      "protocolMappers": [
+        {
+          "name": "realm-roles-mapper",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "roles",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    }
+  ],
+  "roles": {
+    "realm": [
+      { "name": "COSTIQ_USER",    "description": "Standard CostIQ read/write access" },
+      { "name": "COSTIQ_MANAGER", "description": "Cost center manager — approve and review" },
+      { "name": "COSTIQ_ADMIN",   "description": "Platform administrator" },
+      { "name": "COSTIQ_ANALYST", "description": "Read-only analyst access" }
+    ]
+  },
+  "users": [
+    {
+      "username": "analyst.demo",
+      "email": "analyst@costiq.demo",
+      "firstName": "Ana",
+      "lastName": "Lytics",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        { "type": "password", "value": "Demo1234!", "temporary": false }
+      ],
+      "realmRoles": ["COSTIQ_USER", "COSTIQ_ANALYST"]
+    },
+    {
+      "username": "manager.demo",
+      "email": "manager@costiq.demo",
+      "firstName": "Marcus",
+      "lastName": "Manager",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        { "type": "password", "value": "Demo1234!", "temporary": false }
+      ],
+      "realmRoles": ["COSTIQ_USER", "COSTIQ_MANAGER"]
+    },
+    {
+      "username": "admin.demo",
+      "email": "admin@costiq.demo",
+      "firstName": "Adrian",
+      "lastName": "Admin",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        { "type": "password", "value": "Demo1234!", "temporary": false }
+      ],
+      "realmRoles": ["COSTIQ_USER", "COSTIQ_MANAGER", "COSTIQ_ADMIN"]
+    },
+    {
+      "username": "procurement.demo",
+      "email": "procurement@costiq.demo",
+      "firstName": "Sandra",
+      "lastName": "Kim",
+      "enabled": true,
+      "emailVerified": true,
+      "credentials": [
+        { "type": "password", "value": "Demo1234!", "temporary": false }
+      ],
+      "realmRoles": ["COSTIQ_USER"]
+    }
+  ],
+  "passwordPolicy": "length(8) and digits(1) and upperCase(1)",
+  "smtpServer": {},
+  "loginTheme": "keycloak",
+  "accountTheme": "keycloak.v2",
+  "adminTheme": "keycloak.v2",
+  "eventsEnabled": true,
+  "eventsListeners": ["jboss-logging"],
+  "enabledEventTypes": [
+    "LOGIN", "LOGIN_ERROR", "LOGOUT", "TOKEN_EXCHANGE",
+    "CODE_TO_TOKEN", "CODE_TO_TOKEN_ERROR"
+  ]
+}

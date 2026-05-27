@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CostIQ AI ChatBot</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github-dark.min.css"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}"/>
+</head>
+<body class="d-flex flex-column vh-100">
+
+<!-- ── Navbar ──────────────────────────────────────────────────────────── -->
+<nav class="navbar navbar-dark bg-primary px-4 flex-shrink-0">
+  <a class="navbar-brand fw-bold" href="#">
+    <i class="bi bi-graph-up-arrow me-2"></i>Cost<span class="text-warning">IQ</span>
+    <span class="badge bg-warning text-dark ms-2 fw-normal" style="font-size:.65rem">AI</span>
+  </a>
+  <div class="d-flex align-items-center gap-3 ms-auto">
+    <span class="text-white-50 small">
+      <i class="bi bi-person-circle me-1"></i>{{ username }}
+    </span>
+    <a href="/auth/logout" class="btn btn-outline-light btn-sm">
+      <i class="bi bi-box-arrow-right me-1"></i>Sign Out
+    </a>
+  </div>
+</nav>
+
+<!-- ── Body ────────────────────────────────────────────────────────────── -->
+<div class="d-flex flex-grow-1 overflow-hidden">
+
+  <!-- Sidebar -->
+  <aside class="chat-sidebar d-flex flex-column p-3 flex-shrink-0">
+    <div class="mb-3">
+      <button class="btn btn-primary w-100 btn-sm" onclick="newChat()">
+        <i class="bi bi-plus-lg me-1"></i>New Chat
+      </button>
+    </div>
+
+    <div class="sidebar-section-label">QUICK QUESTIONS</div>
+    <div class="d-flex flex-column gap-1 mb-3">
+      <button class="btn btn-outline-secondary btn-sm text-start quick-btn"
+              data-q="What is the grand total spend across all categories?">
+        <i class="bi bi-currency-dollar me-1"></i>Grand total spend
+      </button>
+      <button class="btn btn-outline-secondary btn-sm text-start quick-btn"
+              data-q="Show me a breakdown of food costs by region">
+        <i class="bi bi-basket2 me-1"></i>Food costs by region
+      </button>
+      <button class="btn btn-outline-secondary btn-sm text-start quick-btn"
+              data-q="Which campaign has the highest toy allocation cost?">
+        <i class="bi bi-gift me-1"></i>Top campaign by toy cost
+      </button>
+      <button class="btn btn-outline-secondary btn-sm text-start quick-btn"
+              data-q="List all active suppliers and their countries">
+        <i class="bi bi-truck me-1"></i>Active suppliers
+      </button>
+      <button class="btn btn-outline-secondary btn-sm text-start quick-btn"
+              data-q="Compare marketing spend vs toy allocation spend">
+        <i class="bi bi-bar-chart me-1"></i>Marketing vs Toy spend
+      </button>
+      <button class="btn btn-outline-secondary btn-sm text-start quick-btn"
+              data-q="What are the top 5 food cost entries by total cost?">
+        <i class="bi bi-list-ol me-1"></i>Top food entries
+      </button>
+    </div>
+
+    <div class="sidebar-section-label">EXPORT</div>
+    <button class="btn btn-success btn-sm w-100" id="downloadBtn" style="display:none"
+            onclick="downloadExcel()">
+      <i class="bi bi-file-earmark-excel me-1"></i>Download Excel Report
+    </button>
+    <p class="text-muted small mt-2" id="exportHint">
+      Ask me to generate a report to enable Excel download.
+    </p>
+
+    <div class="mt-auto pt-3 border-top border-secondary">
+      <small class="text-muted">
+        <i class="bi bi-shield-lock me-1"></i>Secured by Keycloak 26 PKCE<br/>
+        <i class="bi bi-robot me-1"></i>Powered by Claude claude-opus-4-5<br/>
+        <i class="bi bi-database me-1"></i>Live CostIQ API data
+      </small>
+    </div>
+  </aside>
+
+  <!-- Chat area -->
+  <main class="d-flex flex-column flex-grow-1 overflow-hidden">
+
+    <!-- Messages -->
+    <div class="chat-messages flex-grow-1 overflow-auto p-4" id="chatMessages">
+      <!-- Welcome message -->
+      <div class="message assistant-message">
+        <div class="message-avatar"><i class="bi bi-robot"></i></div>
+        <div class="message-bubble">
+          <p class="mb-2">👋 Hello <strong>{{ username }}</strong>! I'm the <strong>CostIQ AI Assistant</strong>.</p>
+          <p class="mb-2">I have live access to GlobalBite Foods Inc.'s cost data including:</p>
+          <ul class="mb-2">
+            <li>🥩 Food ingredient procurement costs</li>
+            <li>📦 Packaging material costs</li>
+            <li>🎁 Campaign toy allocations</li>
+            <li>📢 Marketing spend</li>
+          </ul>
+          <p class="mb-0">Ask me anything about the data, or say <em>"generate an Excel report"</em> to download a full workbook.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input area -->
+    <div class="chat-input-area border-top border-secondary p-3 flex-shrink-0">
+      <div class="d-flex gap-2">
+        <textarea id="userInput"
+                  class="form-control bg-dark text-light border-secondary"
+                  rows="2"
+                  placeholder="Ask about costs, campaigns, suppliers, regions... or say 'generate Excel report'"
+                  onkeydown="handleKey(event)"></textarea>
+        <button class="btn btn-primary px-4" id="sendBtn" onclick="sendMessage()">
+          <i class="bi bi-send-fill"></i>
+        </button>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-1">
+        <small class="text-muted">Enter to send · Shift+Enter for new line</small>
+        <small class="text-muted" id="statusText"></small>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── Scripts ──────────────────────────────────────────────────────────── -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/core.min.js"></script>
+<script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+</body>
+</html>

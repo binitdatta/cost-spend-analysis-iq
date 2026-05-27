@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head(${pageTitle})}"></head>
+<body class="costiq-app d-flex flex-column min-vh-100">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="costiq-body d-flex flex-grow-1">
+  <aside th:replace="~{fragments/layout :: sidebar}"></aside>
+  <main class="costiq-main flex-grow-1 p-4 overflow-auto">
+
+    <div class="d-flex align-items-center mb-4">
+      <a th:href="@{/dashboard/packaging-costs}" class="btn btn-outline-secondary btn-sm me-3">
+        <i class="bi bi-arrow-left me-1"></i>Back
+      </a>
+      <div>
+        <h4 class="fw-bold mb-0" th:text="${pageTitle}">Packaging Cost</h4>
+        <p class="text-muted small mb-0"
+           th:text="${isEdit} ? 'Modify packaging cost entry' : 'Record a new packaging cost'"></p>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm" style="max-width:900px;">
+      <div class="card-header bg-info text-white py-3">
+        <h6 class="mb-0">
+          <i class="bi bi-box-seam me-2"></i>
+          <span th:text="${isEdit} ? 'Edit Packaging Cost Entry' : 'New Packaging Cost Entry'"></span>
+        </h6>
+      </div>
+      <div class="card-body p-4">
+        <form th:action="${isEdit} ? @{/dashboard/packaging-costs/{id}/edit(id=${form.id})} : @{/dashboard/packaging-costs/new}"
+              th:object="${form}" method="post">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Packaging Item <span class="text-danger">*</span></label>
+              <select th:field="*{packagingItemId}" class="form-select"
+                      th:classappend="${#fields.hasErrors('packagingItemId')} ? 'is-invalid'">
+                <option value="">— Select Packaging Item —</option>
+                <option th:each="pi : ${packagingItems}"
+                        th:value="${pi.id}"
+                        th:text="${pi.name + ' (' + pi.sku + ')'}"></option>
+              </select>
+              <div class="invalid-feedback" th:errors="*{packagingItemId}"></div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Supplier <span class="text-danger">*</span></label>
+              <select th:field="*{supplierId}" class="form-select"
+                      th:classappend="${#fields.hasErrors('supplierId')} ? 'is-invalid'">
+                <option value="">— Select Supplier —</option>
+                <option th:each="s : ${suppliers}"
+                        th:value="${s.id}"
+                        th:text="${s.name}"></option>
+              </select>
+              <div class="invalid-feedback" th:errors="*{supplierId}"></div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Cost Center <span class="text-danger">*</span></label>
+              <select th:field="*{costCenterId}" class="form-select"
+                      th:classappend="${#fields.hasErrors('costCenterId')} ? 'is-invalid'">
+                <option value="">— Select Cost Center —</option>
+                <option th:each="cc : ${costCenters}"
+                        th:value="${cc.id}"
+                        th:text="${cc.code + ' — ' + cc.name}"></option>
+              </select>
+              <div class="invalid-feedback" th:errors="*{costCenterId}"></div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Fiscal Period <span class="text-danger">*</span></label>
+              <select th:field="*{fiscalPeriodId}" class="form-select"
+                      th:classappend="${#fields.hasErrors('fiscalPeriodId')} ? 'is-invalid'">
+                <option value="">— Select Period —</option>
+                <option th:each="fp : ${periods}"
+                        th:value="${fp.id}"
+                        th:text="${fp.displayName}"></option>
+              </select>
+              <div class="invalid-feedback" th:errors="*{fiscalPeriodId}"></div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Country <span class="text-danger">*</span></label>
+              <select th:field="*{countryId}" class="form-select"
+                      th:classappend="${#fields.hasErrors('countryId')} ? 'is-invalid'">
+                <option value="">— Select Country —</option>
+                <option th:each="c : ${countries}"
+                        th:value="${c.id}"
+                        th:text="${c.name + ' (' + c.region.name + ')'}"></option>
+              </select>
+              <div class="invalid-feedback" th:errors="*{countryId}"></div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Entry Date <span class="text-danger">*</span></label>
+              <input type="date" th:field="*{entryDate}" class="form-control"
+                     th:classappend="${#fields.hasErrors('entryDate')} ? 'is-invalid'"/>
+              <div class="invalid-feedback" th:errors="*{entryDate}"></div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Quantity (units) <span class="text-danger">*</span></label>
+              <input type="number" th:field="*{quantity}" class="form-control"
+                     step="1" min="1"
+                     th:classappend="${#fields.hasErrors('quantity')} ? 'is-invalid'"/>
+              <div class="invalid-feedback" th:errors="*{quantity}"></div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Unit Cost (USD) <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" th:field="*{unitCostUsd}" class="form-control"
+                       step="0.0001" min="0.0001"
+                       th:classappend="${#fields.hasErrors('unitCostUsd')} ? 'is-invalid'"/>
+              </div>
+              <div class="invalid-feedback" th:errors="*{unitCostUsd}"></div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Computed Total (USD)</label>
+              <input type="text" class="form-control bg-light text-info fw-bold"
+                     id="computedTotal" readonly placeholder="Auto-calculated"/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Invoice Reference</label>
+              <input type="text" th:field="*{invoiceRef}" class="form-control"/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">PO Number</label>
+              <input type="text" th:field="*{poNumber}" class="form-control"/>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold">Notes</label>
+              <textarea th:field="*{notes}" class="form-control" rows="2"></textarea>
+            </div>
+          </div>
+          <hr class="my-4"/>
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-info text-white px-4">
+              <i class="bi bi-check-lg me-1"></i>
+              <span th:text="${isEdit} ? 'Update Entry' : 'Create Entry'"></span>
+            </button>
+            <a th:href="@{/dashboard/packaging-costs}" class="btn btn-outline-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+<script>
+  const qtyInput  = document.querySelector('[name="quantity"]');
+  const costInput = document.querySelector('[name="unitCostUsd"]');
+  const totalEl   = document.getElementById('computedTotal');
+  function updateTotal() {
+    const qty  = parseFloat(qtyInput?.value) || 0;
+    const cost = parseFloat(costInput?.value) || 0;
+    totalEl.value = '$' + (qty * cost).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+  }
+  qtyInput?.addEventListener('input', updateTotal);
+  costInput?.addEventListener('input', updateTotal);
+  updateTotal();
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{fragments/layout :: head('About CostIQ')}"></head>
+<body class="costiq-public d-flex flex-column min-vh-100">
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="container py-5 flex-grow-1">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <h2 class="fw-bold mb-3">About CostIQ</h2>
+      <p class="lead text-muted mb-4">CostIQ is an enterprise cost spend analysis platform built for
+        <strong>GlobalBite Foods Inc.</strong>, tracking procurement and promotional spend across 5 global regions.</p>
+
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+          <h5 class="fw-semibold mb-3"><i class="bi bi-layers text-primary me-2"></i>Technology Stack</h5>
+          <div class="row g-2">
+            <div class="col-md-6">
+              <ul class="list-unstyled mb-0">
+                <li class="py-1 border-bottom"><i class="bi bi-check-circle-fill text-success me-2"></i>Spring Boot 3.5</li>
+                <li class="py-1 border-bottom"><i class="bi bi-check-circle-fill text-success me-2"></i>Spring Security 6 / OAuth2 PKCE</li>
+                <li class="py-1 border-bottom"><i class="bi bi-check-circle-fill text-success me-2"></i>Keycloak 26 IdP</li>
+                <li class="py-1"><i class="bi bi-check-circle-fill text-success me-2"></i>Thymeleaf 3 + Bootstrap 5</li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul class="list-unstyled mb-0">
+                <li class="py-1 border-bottom"><i class="bi bi-check-circle-fill text-success me-2"></i>Spring Data JPA (validate only)</li>
+                <li class="py-1 border-bottom"><i class="bi bi-check-circle-fill text-success me-2"></i>MySQL 8.x</li>
+                <li class="py-1 border-bottom"><i class="bi bi-check-circle-fill text-success me-2"></i>Chart.js 4.x Dashboards</li>
+                <li class="py-1"><i class="bi bi-check-circle-fill text-success me-2"></i>DBA-owned DDL (no app schema rights)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a th:href="@{/}" class="btn btn-outline-primary">
+        <i class="bi bi-arrow-left me-1"></i>Back to Home
+      </a>
+    </div>
+  </div>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
